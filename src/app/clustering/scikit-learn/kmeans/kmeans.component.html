@@ -1,0 +1,61 @@
+<mat-expansion-panel expanded= "true" >
+    <mat-expansion-panel-header  expandedHeight="37px" style="background-color: #648bb9; color:white">
+      Bulk Search
+    </mat-expansion-panel-header>
+  
+    <mat-card class="example-card" style="margin-top: 25px;">
+      <mat-card-header>
+        <div mat-card-avatar style="width: 9px;"><i class="material-icons">
+          attach_file
+          </i> </div>
+        <mat-card-title>Upload Bulk Search File</mat-card-title>
+        <!-- <mat-card-subtitle></mat-card-subtitle> -->
+      </mat-card-header>
+     <mat-card-content>
+        <input type="file" #file style="display: none" (change)="onFilesAdded()" multiple />
+        <div class="container" fxLayout="column" fxLayoutAlign="space-evenly stretch">
+          <h1 mat-dialog-title>Upload Files</h1>
+          <div>
+            <button [disabled]="uploading || uploadSuccessful" mat-raised-button color="primary" class="add-files-btn" (click)="addFiles()">
+              Add Files
+            </button>
+          </div>
+        
+          <!-- This is the content of the dialog, containing a list of the files to upload -->
+          <mat-dialog-content fxFlex>
+            <mat-list>
+              <mat-list-item *ngFor="let file of files">
+        
+                <h4 mat-line>{{file.name}}</h4>
+        
+                <mat-progress-bar *ngIf="progress" mode="determinate" [value]="progress[file.name].progress | async"></mat-progress-bar>
+        
+              </mat-list-item>
+            </mat-list>
+          </mat-dialog-content>
+        
+          <!-- This are the actions of the dialog, containing the primary and the cancel button-->
+          <mat-dialog-actions class="actions">
+            <button (click)="refreshcomponent()" mat-button >Cancel</button>
+            <button mat-raised-button color="primary" [disabled]="!canBeClosed" (click)="closeDialog()">{{primaryButtonText}}</button>
+          </mat-dialog-actions>
+        </div>
+        
+  
+      </mat-card-content>
+      <!-- <mat-card-actions>
+        <button mat-raised-button (click)="openUploadDialog()">Upload</button>
+      </mat-card-actions> -->
+    </mat-card>
+  
+  
+  
+    <mat-action-row  style="padding: 4px 4px 4px 4px;">
+      <button mat-raised-button (click)="openUploadDialog()">Upload</button>
+    </mat-action-row>
+  </mat-expansion-panel>
+  
+  
+  
+  <!-- <button mat-raised-button (click)="openUploadDialog()">Upload</button> -->
+  
