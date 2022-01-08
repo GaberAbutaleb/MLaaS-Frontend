@@ -1,61 +1,137 @@
-<mat-expansion-panel expanded= "true" >
-    <mat-expansion-panel-header  expandedHeight="37px" style="background-color: #648bb9; color:white">
-      Bulk Search
+<div [ngBusy]="busy">
+  <mat-expansion-panel expanded="true">
+    <mat-expansion-panel-header expandedHeight="37px" style="background-color: #648bb9; color:white">
+      KMeans Clustring
     </mat-expansion-panel-header>
-  
+
     <mat-card class="example-card" style="margin-top: 25px;">
       <mat-card-header>
         <div mat-card-avatar style="width: 9px;"><i class="material-icons">
-          attach_file
+            attach_file
           </i> </div>
-        <mat-card-title>Upload Bulk Search File</mat-card-title>
+        <mat-card-title>Clustring  your Data by KMeans</mat-card-title>
         <!-- <mat-card-subtitle></mat-card-subtitle> -->
       </mat-card-header>
-     <mat-card-content>
-        <input type="file" #file style="display: none" (change)="onFilesAdded()" multiple />
-        <div class="container" fxLayout="column" fxLayoutAlign="space-evenly stretch">
-          <h1 mat-dialog-title>Upload Files</h1>
-          <div>
-            <button [disabled]="uploading || uploadSuccessful" mat-raised-button color="primary" class="add-files-btn" (click)="addFiles()">
-              Add Files
-            </button>
+      <mat-card-content>
+        
+
+          <div class="row">
+            <!-- <div [ngBusy]="busy" class="col-lg-12"> -->
+              <form >
+                <!-- <div class="alert alert-danger" *ngIf="searchName.touched && !searchName.valid">
+                  One input at least is required </div> -->
+                <mat-form-field style="width: 100%;">
+                  <!-- required -->
+                  <label>Number Of Rows ( 0 all rows) </label>
+                  <input  [(ngModel)]="noOfRows" name="noOfRows" matInput  type="string" value="0">
+                </mat-form-field>
+                <mat-form-field style="width: 100%;">
+                  <label>Number Of Columns (0 all Columns) </label>
+                  <input [(ngModel)] = "noOfColumns" name="noOfColumns" matInput  type="string" value="0">
+                </mat-form-field>
+                <!-- <mat-form-field style="width: 100%;">
+                  
+                  <input  [(ngModel)] = "method" name="method" matInput  type="string" value="elbow">
+                </mat-form-field> -->
+                <mat-form-field style="width: 100%;">
+                  <label>Method to find best k (elbow is th default)</label>
+                  <mat-select [(ngModel)]="method" name="searchType" [(value)]="method">
+                    <mat-option value="elbow">elbow</mat-option>
+                    <mat-option value="silhouette">silhouette</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </form>
+            <!-- </div> -->
           </div>
         
-          <!-- This is the content of the dialog, containing a list of the files to upload -->
-          <mat-dialog-content fxFlex>
-            <mat-list>
-              <mat-list-item *ngFor="let file of files">
-        
-                <h4 mat-line>{{file.name}}</h4>
-        
-                <mat-progress-bar *ngIf="progress" mode="determinate" [value]="progress[file.name].progress | async"></mat-progress-bar>
-        
-              </mat-list-item>
-            </mat-list>
-          </mat-dialog-content>
-        
-          <!-- This are the actions of the dialog, containing the primary and the cancel button-->
-          <mat-dialog-actions class="actions">
-            <button (click)="refreshcomponent()" mat-button >Cancel</button>
-            <button mat-raised-button color="primary" [disabled]="!canBeClosed" (click)="closeDialog()">{{primaryButtonText}}</button>
-          </mat-dialog-actions>
+
+
+        <input type="file" class="file-input" (change)="onFileSelected($event)" #fileUpload>
+        <div class="file-upload">
+          {{fileName || "No file uploaded yet."}}
+          <!-- <button mat-raised-button color="primary">Primary</button> -->
+          <button mat-raised-button color="primary" class="upload-btn" (click)="fileUpload.click()" >
+            <mat-icon>attach_file</mat-icon> Upload
+          </button>
+          <button mat-raised-button (click)="refreshcomponent()">Try another file</button>
         </div>
-        
-  
+
+
       </mat-card-content>
-      <!-- <mat-card-actions>
-        <button mat-raised-button (click)="openUploadDialog()">Upload</button>
-      </mat-card-actions> -->
+      <mat-action-row  style="padding: 4px 4px 4px 4px;">
+        
+      </mat-action-row>
     </mat-card>
-  
-  
-  
-    <mat-action-row  style="padding: 4px 4px 4px 4px;">
-      <button mat-raised-button (click)="openUploadDialog()">Upload</button>
-    </mat-action-row>
+
   </mat-expansion-panel>
-  
-  
-  
-  <!-- <button mat-raised-button (click)="openUploadDialog()">Upload</button> -->
-  
+
+</div>
+<!--  -->
+
+<!--  out put section start -->
+<p style="width:5px"> </p>
+<div [hidden]="!displayidentity">
+  <mat-expansion-panel expanded="true">
+    <mat-expansion-panel-header expandedHeight="37px" style="background-color: #648bb9; color:white">
+      Model output
+    </mat-expansion-panel-header>
+
+    <mat-card class="example-card" style="margin-top: 25px;">
+      <mat-card-header>
+        <div mat-card-avatar style="width: 9px;"><i class="material-icons">
+            attach_file
+          </i> </div>
+        <mat-card-title>Kmeans Model Output</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="row card-header">
+          <div class="col-lg-6 " style="font-weight: bold">
+            Kmeans model Created
+          </div>
+          <div class="col-lg-6">
+            {{kmeansRObj.kmeans}}
+          </div>
+        </div>
+        <div class="row card-header">
+          <div class="col-lg-6" style="font-weight: bold">
+            n_iter
+          </div>
+          <div class="col-lg-6">
+            {{kmeansRObj.n_iter}}
+          </div>
+        </div>
+        <div class="row card-header">
+          <div class="col-lg-6" style="font-weight: bold">
+            kmeans inertia
+          </div>
+          <div class="col-lg-6">
+            {{ kmeansRObj.inertia}}
+          </div>
+        </div>
+        <div class="row card-header">
+          <div class="col-lg-6" style="font-weight: bold">
+            Number of Clusters
+          </div>
+          <div class="col-lg-6">
+            {{ kmeansRObj.numberOfK}}
+          </div>
+        </div>
+
+        <div class="row card-header">
+          <div class="col-lg-6" style="font-weight: bold">
+            Download the kmeans cluster modle.
+          </div>
+          <div class="col-lg-6">
+            <a style="font-style: italic; color: blue; cursor: pointer;"  (click)="downloadFileSystem()">Download kmeans Deployment model</a>
+          </div>
+        </div>
+        <img [src]="imageData" class="img-fluid" *ngIf="imageData"/>
+      </mat-card-content>
+      <p>
+        
+       
+      </p>
+
+    </mat-card>
+  </mat-expansion-panel>
+</div>

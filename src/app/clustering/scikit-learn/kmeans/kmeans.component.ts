@@ -1,148 +1,112 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, Input } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { forkJoin } from 'rxjs';
-import { UploadDialogComponentComponent } from './dialog/upload-dialog-component/upload-dialog-component.component';
+import { forkJoin, Subscription } from 'rxjs';
 import { KmeansService } from './kmeans.service';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
+import { HttpClient, HttpEventType } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
+import { catchError, finalize } from 'rxjs/operators';
+import * as fileSaver from 'file-saver';
+export interface kmeansReturnedObj {
+  kmeans: string;
+  n_iter: number;
+  inertia: number;
+  numberOfK: string;
+}
 @Component({
   selector: 'app-kmeans',
   templateUrl: './kmeans.component.html',
   styleUrls: ['./kmeans.component.scss']
 })
 export class KmeansComponent implements OnInit {
-  @ViewChild('file', { static: false }) file :ElementRef<any> = {} as ElementRef<any>;
-  // @ViewChild('file', {static: false}) file :any ;
-  public files: Set<File> = new Set() ;
-  constructor(public dialog: MatDialog,public KmeansServiceobj :KmeansService,
-    public toastr: ToastrService,public router: Router,
-    // public dialogRef: MatDialogRef<KmeansComponent>, 
-    public kmeansService: KmeansService) { }
-
-  ngOnInit(): void {
+  kmeansRObj: kmeansReturnedObj = {} as kmeansReturnedObj;
+  busy: Subscription = {} as Subscription;
+  ServerandPort = environment.ServerandPort;
+  uploadURL = this.ServerandPort + '/upload-file';
+  displayidentity = false
+  noOfRows: number = 0;
+  noOfColumns: number = 0;
+  fileName = '';
+  method: string = "elbow";
+  imageData: string | ArrayBuffer | null = "";
+  myDate = +new Date();
+  datetoString = "km"+this.myDate 
+  ngOnInit() {
   }
-  progress:any;
-  canBeClosed = true;
-  primaryButtonText = 'Upload';
-  showCancelButton = true;
-  uploading = false;
-  uploadSuccessful = false;
-  showUploadContent= true;
+
 
   refreshcomponent() {
-    this.router.navigateByUrl('/RefreshComponent', { skipLocationChange: true }).then(() => {
-      this.router.navigate(['/clustering/scikitlearn/kmeans']);
-  }); 
+    this.router.navigateByUrl('/RefreshComponent', { skipLocationChange: true }).then(() =>
+      this.router.navigate(['/clustering/scikitlearn/kmeans'])
+    );
   }
+  constructor(private http: HttpClient, public toastr: ToastrService, public router: Router,  
+    public KmService :KmeansService) { }
+
+  onFileSelected(event: any) {
+
+    const file: File = event.target.files[0];
+
+    if (file) {
+
+      this.fileName = file.name;
+
+      const formData = new FormData();
+
+      formData.append("uploaded_file", file);
+      
+      var url = this.uploadURL + '/?noOfRows=' + this.noOfRows + '&noOfColumns=' + this.noOfColumns + '&method=' 
+      + this.method +'&clustringImageName='+this.datetoString;
+      console.log(url)
+      this.busy = this.http.post(url, formData).subscribe((response: any) => {
+
+        this.toastr.success(file.name + ' loaded successfully', 'Done', { timeOut: 2000 });                      //Next callback
+        console.log('response received')
+        console.log(response);
+        this.kmeansRObj = response;
+        this.displayidentity = true;
+
+      //  
+      this.KmService.getImage(formData, this.datetoString)
+      .subscribe(
+        r => {
+          const fileReader = new FileReader();
+          fileReader.addEventListener('load', () => {
+            this.imageData = fileReader.result;
+          }, true);
+  
+          if (r) {
+            fileReader.readAsDataURL(r.body);
+          }
+        },
+        e => {
+          console.error(e);
+        }
+      );
+      // 
 
 
-  onFilesAdded() {
-    const files: { [key: string]: File } = this.file.nativeElement.files;
-    for (let key in files) {
-      if (!isNaN(parseInt(key))) {
-        this.files.add(files[key]);
-      }
+      },
+        (error) => {                              //Error callback
+          console.error('error caught in component')
+          this.toastr.error(file.name + error.error.message, 'Error', { timeOut: 4000 });
+          console.log('this is the error', error.error.message);
+
+          //throw error;   //You can also throw the error to a global error handler
+        });
     }
   }
 
-  addFiles() {
-    this.file.nativeElement.click();
-  }
+  downloadFileSystem() {
+    console.log('fileSystemName', this.datetoString);
 
-closeContent(){
-  this.refreshcomponent() 
-}
-
-  closeDialog() {
-    // if everything was uploaded already, just close the dialog
-    if (this.uploadSuccessful) {
-      // this.showUploadContent =false;
-    }
-    // set the component state to "uploading"
-    this.uploading = true;
-
-    if (this.isxlsoralsx(this.files)) {
-      // start the upload and save the progress map
-      this.progress = this.kmeansService.upload(this.files);
-      console.log('this.progress', this.progress);
-      for (const key in this.progress) {
-        this.progress[key].progress.subscribe((val :any) => console.log(val));
-      }
-
-      // convert the progress map into an array
-      let allProgressObservables = [];
-      for (let key in this.progress) {
-        allProgressObservables.push(this.progress[key].progress);
-      }
-
-      // Adjust the state variables
-      // The OK-button should have the text "Finish" now
-      this.primaryButtonText = 'Upload';
-      // The dialog should not be closed while uploading
-      this.canBeClosed = true;
-      // this.dialogRef.disableClose = true;
-
-      // Hide the cancel-button
-      // this.showCancelButton = false;
-      // When all progress-observables are completed...
-      forkJoin(allProgressObservables).subscribe(end => {
-        // ... the dialog can be closed again...
-        this.canBeClosed = true;
-        // this.dialogRef.disableClose = false;
-        console.log('end', end);
-        // ... the upload was successful...
-        // this.toastr.success('Files uploaded successfully', 'Done', { timeOut: 2000 });
-        this.uploadSuccessful = true;
-        // ... and the component is no longer uploading
-        this.uploading = false;
-      }, error => {
-        this.toastr.error(error.message, 'Error', { timeOut: 4000 });
-        console.log('error', error)
-      });
-    } else {
-      this.toastr.error('Only csv  files are accepts to upload', 'Error', { timeOut: 4000 });
-    }
-
-  }
-
-  isxlsoralsx(files :any) {
-    var contains: boolean = true;
-    // this.files.forEach(file => {
-    //    console.log('file.name', file.name);
-    //   if (file.name.endsWith('xlsx') || file.name.endsWith('xls')) {
-    //     contains = true;
-    //   } else {
-    //     console.log('not excel');
-    //     contains = false;
-    //     return contains;
-    //   }
-    // });
-    // console.log('files', files);
-    //  console.log('files size', files.size);
-    for (var file of files) {
-      // const file = files[index];
-      console.log('file.name', file.name);
-      if (file.name.endsWith('csv') || file.name.endsWith('csv')) {
-        // console.log('excel');
-        contains = true;
-      } else {
-        // console.log('not excel');
-        contains = false;
-        break;
-      }
-    }
-    return contains;
-  }
-  public openUploadDialog() {
-    const dialogRef = this.dialog.open(UploadDialogComponentComponent, { width: '50%', height: '50%' });
-  }
-  downloadFileSystem( ) {
-    // console.log('fileSystemName', fileSystemName);
-
-    this.KmeansServiceobj.downloadFileSystem()
+    this.KmService.downloadFileSystem(this.datetoString)
       .subscribe( (response :any) => {
-        console.log('fileSystemName', response);
+        let blobtool5 = new Blob([response], { type: 'application/octet-stream' });
+        fileSaver.saveAs(blobtool5, 'kmeansClustringModel.pkl');
       });
   }
+
 
 }
