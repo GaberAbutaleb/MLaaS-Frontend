@@ -8,6 +8,7 @@ import { HttpClient, HttpEventType } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { catchError, finalize } from 'rxjs/operators';
 import * as fileSaver from 'file-saver';
+// import { MatRadioChange } from '@angular/material';
 export interface kmeansReturnedObj {
   kmeans: string;
   n_iter: number;
@@ -28,10 +29,16 @@ export class KmeansComponent implements OnInit {
   noOfRows: number = 0;
   noOfColumns: number = 0;
   fileName = '';
+  displayManualK = true;
+  displaySystemK = false;
+  noOfK : number = 0;
   method: string = "elbow";
   imageData: string | ArrayBuffer | null = "";
   myDate = +new Date();
-  datetoString = "km"+this.myDate 
+  datetoString = "km"+this.myDate ;
+  kmethod: string ="System";
+  methods: string[] = ['Manual', 'System'];
+  manualK : number= 0;
   ngOnInit() {
   }
 
@@ -43,6 +50,23 @@ export class KmeansComponent implements OnInit {
   }
   constructor(private http: HttpClient, public toastr: ToastrService, public router: Router,  
     public KmService :KmeansService) { }
+
+    radioChange(event: any) {
+      console.log(event.source.name,event.value);
+      if(event.value == 'Manual') {
+        this.manualK = this.noOfK;
+        console.log('this.manualK',this.manualK)
+        console.log('this.noOfK',this.noOfK)
+        this.displayManualK = false;
+        this.displaySystemK = true;
+      }
+      else if (event.value == 'System'){
+        this.manualK = 0;
+        this.displaySystemK = false;
+        this.displayManualK = true;
+      }
+  }
+
 
   onFileSelected(event: any) {
 
@@ -57,12 +81,12 @@ export class KmeansComponent implements OnInit {
       formData.append("uploaded_file", file);
       
       var url = this.uploadURL + '/?noOfRows=' + this.noOfRows + '&noOfColumns=' + this.noOfColumns + '&method=' 
-      + this.method +'&clustringImageName='+this.datetoString;
+      + this.method +'&clustringImageName='+this.datetoString+'&kManualcluster='+this.noOfK;
       console.log(url)
       this.busy = this.http.post(url, formData).subscribe((response: any) => {
 
         this.toastr.success(file.name + ' loaded successfully', 'Done', { timeOut: 2000 });                      //Next callback
-        console.log('response received')
+        // console.log('response received')
         console.log(response);
         this.kmeansRObj = response;
         this.displayidentity = true;

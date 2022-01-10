@@ -29,11 +29,23 @@
                   <label>Number Of Columns (0 all Columns) </label>
                   <input [(ngModel)] = "noOfColumns" name="noOfColumns" matInput  type="string" value="0">
                 </mat-form-field>
-                <!-- <mat-form-field style="width: 100%;">
-                  
-                  <input  [(ngModel)] = "method" name="method" matInput  type="string" value="elbow">
-                </mat-form-field> -->
-                <mat-form-field style="width: 100%;">
+
+                <label id="example-radio-group-label">Choosing the cluster number:</label> <br/>
+                <mat-radio-group aria-labelledby="example-radio-group-label"
+                class="example-radio-group" (change)="radioChange($event)" [(ngModel)]="kmethod" [ngModelOptions]="{standalone: true}">
+<!--                   
+                  <mat-radio-button [value]="M">Manual</mat-radio-button>
+                  <mat-radio-button [value]="S">By the system</mat-radio-button> -->
+                  <mat-radio-button style = "padding: 10px; " class="example-radio-button" name="method" *ngFor="let method of methods" [value]="method">
+                    {{method}}
+                  </mat-radio-button>
+                </mat-radio-group>
+                <!-- <div>Your favorite season is: {{kmethod}}</div> -->
+                <mat-form-field [hidden]="displayManualK" style="width: 100%;">
+                  <label>Number Of clusters {{noOfK}} </label>
+                  <input [(ngModel)] = "noOfK" name="noOfK" matInput  type="string" value="">
+                </mat-form-field>
+                <mat-form-field [hidden]="displaySystemK"  style="width: 100%;">
                   <label>Method to find best k (elbow is th default)</label>
                   <mat-select [(ngModel)]="method" name="searchType" [(value)]="method">
                     <mat-option value="elbow">elbow</mat-option>
