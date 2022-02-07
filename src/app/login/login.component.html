@@ -1,0 +1,26 @@
+<body>
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+        <div class="card card-signin my-5">
+          <div class="card-body">
+            <h5 class="card-title text-center">Sign In</h5>
+            <div *ngIf="invalidLogin" class="alert alert-danger">Invalid username and/or password.</div>
+            <form class="example-form"  #f="ngForm" (ngSubmit)="signIn(f.value)">
+              <mat-form-field class="example-full-width">
+                <input matInput type="text" id="username"   ngModel name ="username" class="form-control" placeholder="username" required >
+              </mat-form-field>
+              
+              <mat-form-field class="example-full-width">
+                <input matInput type="password" id="inputPassword" name="password"  ngModel class="form-control" placeholder="password" required >
+              </mat-form-field>
+             
+              <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Sign in</button>
+              <hr class="my-4">
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>

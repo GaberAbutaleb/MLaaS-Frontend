@@ -132,5 +132,13 @@ export class KmeansComponent implements OnInit {
       });
   }
 
+  downloadOutPutFileSystem() {
+    console.log('fileSystemName', this.datetoString);
 
+    this.KmService.downloadOutPutFileSystem(this.datetoString)
+      .subscribe( (response :any) => {
+        let blobtool5 = new Blob([response], { type: 'application/octet-stream' });
+        fileSaver.saveAs(blobtool5, 'kmeansOutputFile.csv');
+      });
+  }
 }

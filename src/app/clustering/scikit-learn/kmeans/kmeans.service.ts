@@ -24,6 +24,12 @@ export class KmeansService {
     return this.http.get(this.ServerandPort + '/kmclustring/model/?modelName=' + filename+'.pkl', { responseType: 'blob', headers: getfileheaders });
   }
 
+  downloadOutPutFileSystem(filename: string): Observable<any> {
+    const getfileheaders = new HttpHeaders().set('Accept', 'application/octet-stream');
+
+    return this.http.get(this.ServerandPort + '/kmclustring/outputdata?outputFileName=' + filename+'output.csv', { responseType: 'blob', headers: getfileheaders });
+  }
+
   public getImage(formData: FormData, imagename : string): Observable<any> {
     const url = this.ServerandPort + '/kmclustring/image?imageName='+imagename;
     return this.http.post(url, formData, {observe: 'response', responseType: 'blob'});

@@ -128,7 +128,14 @@
             {{ kmeansRObj.numberOfK}}
           </div>
         </div>
-
+        <div class="row card-header">
+          <div class="col-lg-6" style="font-weight: bold">
+            Download the kmeans output file.
+          </div>
+          <div class="col-lg-6">
+            <a style="font-style: italic; color: blue; cursor: pointer;"  (click)="downloadOutPutFileSystem()">Download the kmeans output file</a>
+          </div>
+        </div>
         <div class="row card-header">
           <div class="col-lg-6" style="font-weight: bold">
             Download the kmeans cluster modle.
@@ -137,6 +144,7 @@
             <a style="font-style: italic; color: blue; cursor: pointer;"  (click)="downloadFileSystem()">Download kmeans Deployment model</a>
           </div>
         </div>
+        
         <img [src]="imageData" class="img-fluid" *ngIf="imageData"/>
       </mat-card-content>
       <p>

@@ -10,12 +10,21 @@ import { SideNavComponent } from './SideNav/side-nav/side-nav.component';
 import { SideNavContentComponent } from './SideNav/side-nav-content/side-nav-content.component';
 import { HttpClientModule } from '@angular/common/http';
 import { ScikitLearnModule } from './clustering/scikit-learn/scikit-learn.module';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms'
+import { NgForm } from '@angular/forms';
+import { LoginComponent } from './login/login.component';
+import { NoAccessComponent } from './no-access/no-access.component';
+import { AuthGuardService } from './Services/auth-guard.service';
+import { httpInterceptorProviders } from './auth/auth-interceptor';
+import {MatExpansionModule} from '@angular/material/expansion';
 
 @NgModule({
   declarations: [
     AppComponent,
     SideNavComponent,
-    SideNavContentComponent
+    SideNavContentComponent,
+    NoAccessComponent,
+    LoginComponent,
   ],
   imports: [
     BrowserModule,
@@ -24,10 +33,14 @@ import { ScikitLearnModule } from './clustering/scikit-learn/scikit-learn.module
     MaterialModule,
     HttpClientModule,
     ScikitLearnModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatExpansionModule,
+    // NgForm,
     ToastrModule.forRoot({ positionClass: 'toast-top-center' }), // ToastrModule added
     NgBusyModule
   ],
-  providers: [],
+  providers: [AuthGuardService, httpInterceptorProviders],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
