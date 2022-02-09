@@ -17,6 +17,7 @@ import { NoAccessComponent } from './no-access/no-access.component';
 import { AuthGuardService } from './Services/auth-guard.service';
 import { httpInterceptorProviders } from './auth/auth-interceptor';
 import {MatExpansionModule} from '@angular/material/expansion';
+import { SignupComponent } from './signup/signup.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import {MatExpansionModule} from '@angular/material/expansion';
     SideNavContentComponent,
     NoAccessComponent,
     LoginComponent,
+    SignupComponent,
   ],
   imports: [
     BrowserModule,

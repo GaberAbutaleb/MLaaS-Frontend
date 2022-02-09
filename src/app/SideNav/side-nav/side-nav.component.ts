@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import {MediaMatcher} from '@angular/cdk/layout';
 import {ChangeDetectorRef, Component, OnDestroy} from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
+import { AuthService } from 'src/app/Services/auth.service';
 @Component({
   selector: 'app-side-nav',
   templateUrl: './side-nav.component.html',
@@ -22,7 +23,7 @@ export class SideNavComponent implements OnDestroy {
   private _mobileQueryListener: () => void;
 
   constructor(changeDetectorRef: ChangeDetectorRef, media: MediaMatcher,
-
+    public  authService: AuthService ,
    public  http: HttpClient,
     public toastr: ToastrService) {
     this.mobileQuery = media.matchMedia('(max-width: 600px)');

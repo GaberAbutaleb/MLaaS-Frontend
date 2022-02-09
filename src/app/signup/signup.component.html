@@ -1,0 +1,37 @@
+<body>
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+          <div class="card card-signin my-5">
+            <div class="card-body">
+              <h5 class="card-title text-center">Sign In</h5>
+              
+              <form class="example-form"  #f="ngForm" (ngSubmit)="signUp(f.value)">
+                <mat-form-field class="example-full-width">
+                  <input matInput type="text" id="username"   ngModel name ="username" class="form-control" placeholder="User Name" required >
+                </mat-form-field>
+                <mat-form-field class="example-full-width">
+                  <input matInput type="password" id="password" name="password"  ngModel class="form-control" placeholder="Password" required >
+                </mat-form-field>
+                <mat-form-field class="example-full-width">
+                  <input matInput type="first_name" id="first_name" name="first_name"  ngModel class="form-control" placeholder="First Name" required >
+                </mat-form-field>
+                <mat-form-field class="example-full-width">
+                  <input matInput type="text" id="last_name" name="last_name"  ngModel class="form-control" placeholder="Last Name" required >
+                </mat-form-field>
+                <mat-form-field class="example-full-width">
+                  <input matInput type="text" id="phone_number" name="phone_number"  ngModel class="form-control" placeholder="Phone Number" required >
+                </mat-form-field>
+                <mat-form-field class="example-full-width">
+                    <input matInput type="text" id="email" name="email"  ngModel class="form-control" placeholder="Email" required >
+                  </mat-form-field>
+                <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Sign up</button>
+                <hr class="my-4">
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+  
