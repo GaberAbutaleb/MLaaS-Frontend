@@ -25,7 +25,7 @@ export class KmeansComponent implements OnInit {
   busy: Subscription = {} as Subscription;
   ServerandPort = environment.ServerandPort;
   uploadURL = this.ServerandPort + '/upload-file';
-  displayidentity = false
+  displayidentity = false;
   noOfRows: number = 0;
   noOfColumns: number = 0;
   fileName = '';
