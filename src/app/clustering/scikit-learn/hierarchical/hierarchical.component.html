@@ -1,0 +1,143 @@
+<div [ngBusy]="busy">
+    <mat-expansion-panel expanded="true">
+      <mat-expansion-panel-header expandedHeight="37px" style="background-color: #648bb9; color:white">
+        Hierarchical Clustring
+      </mat-expansion-panel-header>
+  
+      <mat-card class="example-card" style="margin-top: 25px;">
+        <mat-card-header>
+          <div mat-card-avatar style="width: 9px;"><i class="material-icons">
+              attach_file
+            </i> </div>
+          <mat-card-title>Clustring  your Data by Hierarchical Cluster</mat-card-title>
+          <!-- <mat-card-subtitle></mat-card-subtitle> -->
+        </mat-card-header>
+        <mat-card-content>
+          
+  
+            <div class="row">
+                <form >
+                  <mat-form-field style="width: 100%;">
+                    <!-- required -->
+                    <label>Number Of Rows ( 0 all rows) </label>
+                    <input  [(ngModel)]="noOfRows" name="noOfRows" matInput  type="string" value="0">
+                  </mat-form-field>
+                  <mat-form-field style="width: 100%;">
+                    <label>Number Of Columns (0 all Columns) </label>
+                    <input [(ngModel)] = "noOfColumns" name="noOfColumns" matInput  type="string" value="0">
+                  </mat-form-field>
+
+                  <mat-form-field  style="width: 100%;">
+                    <label>Number Of clusters {{noOfK}} </label>
+                    <input [(ngModel)] = "noOfK" name="noOfK" matInput  type="string" value="">
+                  </mat-form-field>
+                  <mat-form-field   style="width: 100%;">
+                    <label>Method of affinity</label>
+                    <mat-select [(ngModel)]="affinity" name="affinity" [(value)]="affinity">
+                      <mat-option value="euclidean">euclidean</mat-option>
+                      <mat-option value="l1">l1</mat-option>
+                      <mat-option value="l2">l2</mat-option>
+                      <mat-option value="manhattan">manhattan</mat-option>
+                      <mat-option value="cosine">cosine</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                  <i>If linkage is “ward”, only “euclidean” affinity is accepted.</i>
+
+                  <mat-form-field   style="width: 100%;">
+                    <label>Method of affinity</label>
+                    <mat-select [(ngModel)]="linkage" name="linkage" [(value)]="linkage">
+                      <mat-option value="ward">ward</mat-option>
+                      <mat-option value="complete">complete</mat-option>
+                      <mat-option value="average">average</mat-option>
+                      <mat-option value="single">single</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                  <i>The linkage criterion determines which distance to use between sets of observation</i>
+                </form>
+              <!-- </div> -->
+            </div>
+          
+  
+  
+          <input type="file" class="file-input" (change)="onFileSelected($event)" #fileUpload>
+          <div class="file-upload">
+            {{fileName || "No file uploaded yet."}}
+            <button mat-raised-button color="primary" class="upload-btn" (click)="fileUpload.click()" >
+              <mat-icon>attach_file</mat-icon> Upload
+            </button>
+            <button mat-raised-button (click)="refreshcomponent()">Try another file</button>
+          </div>
+  
+  
+        </mat-card-content>
+        <mat-action-row  style="padding: 4px 4px 4px 4px;">
+          
+        </mat-action-row>
+      </mat-card>
+  
+    </mat-expansion-panel>
+  
+  </div>
+
+  
+  <!--  out put section start -->
+
+  <p style="width:5px"> </p>
+  <div [hidden]="!displayidentity">
+    <mat-expansion-panel expanded="true">
+      <mat-expansion-panel-header expandedHeight="37px" style="background-color: #648bb9; color:white">
+        Model output
+      </mat-expansion-panel-header>
+  
+      <mat-card class="example-card" style="margin-top: 25px;">
+        <mat-card-header>
+          <div mat-card-avatar style="width: 9px;"><i class="material-icons">
+              attach_file
+            </i> </div>
+          <mat-card-title>Hierarchical Model Output</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="row card-header">
+            <div class="col-lg-6 " style="font-weight: bold">
+              Hierarchical model Created
+            </div>
+            <div class="col-lg-6">
+              {{HierObj.HierarchicalCluster}}
+            </div>
+          </div>
+          
+          <div class="row card-header">
+            <div class="col-lg-6" style="font-weight: bold">
+              Number of Clusters
+            </div>
+            <div class="col-lg-6">
+              {{ HierObj.n_clusters}}
+            </div>
+          </div>
+          <div class="row card-header">
+            <div class="col-lg-6" style="font-weight: bold">
+              Download the Hierarchical output file.
+            </div>
+            <div class="col-lg-6">
+              <a style="font-style: italic; color: blue; cursor: pointer;"  (click)="downloadOutPutFileSystem()">Download the Hierarchical output file</a>
+            </div>
+          </div>
+          <div class="row card-header">
+            <div class="col-lg-6" style="font-weight: bold">
+              Download the Hierarchical cluster modle.
+            </div>
+            <div class="col-lg-6">
+              <a style="font-style: italic; color: blue; cursor: pointer;"  (click)="downloadFileSystem()">Download Hierarchical Deployment model</a>
+            </div>
+          </div>
+          
+          <img [src]="imageData" class="img-fluid" *ngIf="imageData"/>
+        </mat-card-content>
+        <p>
+          
+         
+        </p>
+  
+      </mat-card>
+    </mat-expansion-panel>
+  </div>
