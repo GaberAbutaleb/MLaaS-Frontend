@@ -4,9 +4,10 @@ import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { HierarchicalService } from '../hierarchical.service';
+
 import * as fileSaver from 'file-saver';
 import { KmeansService } from '../kmeans/kmeans.service';
+import { HierarchicalService } from './hierarchical.service';
 export interface HierReturnedObj {
   HierarchicalCluster: string;
   n_clusters: number;
