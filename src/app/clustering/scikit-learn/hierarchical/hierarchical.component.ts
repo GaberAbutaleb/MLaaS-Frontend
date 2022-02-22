@@ -81,7 +81,6 @@ export class HierarchicalComponent implements OnInit {
       );
       
 
-
       },
         (error) => {                              //Error callback
           console.error('error caught in component')
@@ -105,7 +104,6 @@ export class HierarchicalComponent implements OnInit {
 
   downloadOutPutFileSystem() {
     console.log('fileSystemName', this.datetoString);
-
     this.hierService.downloadOutPutFileSystem(this.datetoString)
       .subscribe( (response :any) => {
         let blobtool5 = new Blob([response], { type: 'application/octet-stream' });
@@ -113,6 +111,19 @@ export class HierarchicalComponent implements OnInit {
       });
   }
 
+  SaveModelInfo(){
+    this.kmservice.SaveModelInfo('clustring' ,'hierarchical',this.datetoString+'.pkl' ,
+      this.datetoString+'output.csv')
+    .subscribe(
+      (r:any) => {
+        console.log(r)
+      },
+    (e:any) => {
+        console.error(e);
+      }
+    );
+    
+  }
 
 
 }

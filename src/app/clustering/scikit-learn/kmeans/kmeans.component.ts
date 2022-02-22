@@ -141,4 +141,22 @@ export class KmeansComponent implements OnInit {
         fileSaver.saveAs(blobtool5, 'kmeansOutputFile.csv');
       });
   }
+
+  SaveModelInfo(){
+    this.KmService.SaveModelInfo('clustring' ,'kmeans',this.datetoString+'.pkl' ,
+      this.datetoString+'output.csv')
+    .subscribe(
+      (r:any) => {
+        console.log(r)
+      },
+    (e:any) => {
+        console.error(e);
+      }
+    );
+    
+  }
+
+
+
+
 }

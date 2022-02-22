@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { DisplayUserModelsComponent } from './clustering/scikit-learn/display-user-models/display-user-models.component';
 import { HierarchicalComponent } from './clustering/scikit-learn/hierarchical/hierarchical.component';
 import { KmeansComponent } from './clustering/scikit-learn/kmeans/kmeans.component';
 import { LoginComponent } from './login/login.component';
@@ -9,7 +10,8 @@ import { SignupComponent } from './signup/signup.component';
 const routes: Routes = [{
   path: 'clustering', children: [
     { path: 'scikitlearn/kmeans', component: KmeansComponent },
-    {path: 'scikitlearn/hierarchical', component:HierarchicalComponent}
+    {path: 'scikitlearn/hierarchical', component:HierarchicalComponent},
+    {path:'scikitlearn/DisUsrModel',component:DisplayUserModelsComponent}
   ]
 },{ path: 'RefreshComponent', component: KmeansComponent }
 ,{ path: 'RefreshHierComponent', component: HierarchicalComponent }

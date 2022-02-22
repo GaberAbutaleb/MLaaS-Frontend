@@ -23,5 +23,4 @@ export class HierarchicalService {
     return this.http.get(this.ServerandPort + '/kmclustring/outputdata?outputFileName=' + filename+'output.csv', { responseType: 'blob', headers: getfileheaders });
   }
 
-
 }

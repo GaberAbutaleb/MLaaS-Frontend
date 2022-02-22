@@ -5,7 +5,12 @@ import { ToastrService } from 'ngx-toastr';
 import { Observable, Subject } from 'rxjs';
 import { kmeansReturnedObj } from './kmeans.component';
 
-
+export interface MLModInfoReq {
+  model_Category: string;
+  model_used: string;
+  deployment_Model_Name: string;
+  Model_Output_File_Name: string;
+}
 
 
 @Injectable({
@@ -13,6 +18,7 @@ import { kmeansReturnedObj } from './kmeans.component';
 })
 export class KmeansService {
   kmeansreObj2: kmeansReturnedObj = {} as kmeansReturnedObj;
+  mlMInfoReq: MLModInfoReq = {} as MLModInfoReq;
   ServerandPort = environment.ServerandPort;
   kmeansreObj: kmeansReturnedObj = {} as kmeansReturnedObj;
   uploadURL = this.ServerandPort + '/upload-file';
@@ -40,4 +46,19 @@ export class KmeansService {
     
     return this.kmeansreObj2;
   }
+
+
+  SaveModelInfo(model_Category :string , model_used :string,deployment_Model_Name :string,
+    Model_Output_File_Name :string) {
+      this.mlMInfoReq.Model_Output_File_Name = Model_Output_File_Name ;
+      this.mlMInfoReq.deployment_Model_Name = deployment_Model_Name ;
+      this.mlMInfoReq.model_used = model_used;
+      this.mlMInfoReq.model_Category = model_Category;
+      const url = this.ServerandPort + '/InsertuserModelsInfo';
+      return this.http.post(url,this.mlMInfoReq);
+    }
+
+    getAll(path :any) {
+      return this.http.get(this.ServerandPort + path);
+    }
 }

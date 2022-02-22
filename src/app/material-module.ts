@@ -86,6 +86,9 @@ import { CommonModule } from '@angular/common';
     ScrollingModule,
     FormsModule,
     CommonModule,
+    MatPaginatorModule,
+    MatCardModule ,
+    
 
   ]
 })
