@@ -147,10 +147,12 @@ export class KmeansComponent implements OnInit {
       this.datetoString+'output.csv')
     .subscribe(
       (r:any) => {
+        this.toastr.success('Model Saved Successfully', 'Done', { timeOut: 2000 });
         console.log(r)
       },
     (e:any) => {
         console.error(e);
+        console.error('error caught in component')
       }
     );
     

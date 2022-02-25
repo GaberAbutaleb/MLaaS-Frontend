@@ -35,6 +35,19 @@ export class KmeansService {
 
     return this.http.get(this.ServerandPort + '/kmclustring/outputdata?outputFileName=' + filename+'output.csv', { responseType: 'blob', headers: getfileheaders });
   }
+  downloadOutPutFile(filename: string): Observable<any> {
+    const getfileheaders = new HttpHeaders().set('Accept', 'application/octet-stream');
+
+    return this.http.get(this.ServerandPort + '/kmclustring/outputdata?outputFileName=' + filename, { responseType: 'blob', headers: getfileheaders });
+  }
+  downloadDeploymentFile(filename: string): Observable<any> {
+    const getfileheaders = new HttpHeaders().set('Accept', 'application/octet-stream');
+
+    return this.http.get(this.ServerandPort + '/kmclustring/model?modelName=' + filename, { responseType: 'blob', headers: getfileheaders });
+  }
+
+
+
 
   public getImage(formData: FormData, imagename : string): Observable<any> {
     const url = this.ServerandPort + '/kmclustring/image?imageName='+imagename;
@@ -61,4 +74,13 @@ export class KmeansService {
     getAll(path :any) {
       return this.http.get(this.ServerandPort + path);
     }
+
+    delete(path :any, id: any) {
+      // console.log(this.ServerandPort + path + '/' + id);
+      // , this.httpOptions
+      return this.http.delete(this.ServerandPort + path +'/'+ id);
+    }
+
+
+
 }

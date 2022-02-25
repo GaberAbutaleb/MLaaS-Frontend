@@ -13,7 +13,8 @@ const routes: Routes = [{
     {path: 'scikitlearn/hierarchical', component:HierarchicalComponent},
     {path:'scikitlearn/DisUsrModel',component:DisplayUserModelsComponent}
   ]
-},{ path: 'RefreshComponent', component: KmeansComponent }
+},{ path: 'RefreshComponent', component: KmeansComponent },
+{path:'RefreshDisplayUser', component:DisplayUserModelsComponent}
 ,{ path: 'RefreshHierComponent', component: HierarchicalComponent }
 ,{ path: '', redirectTo: '/homepage', pathMatch: 'full' }
 ,{ path: 'login', component: LoginComponent },

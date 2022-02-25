@@ -116,9 +116,11 @@ export class HierarchicalComponent implements OnInit {
       this.datetoString+'output.csv')
     .subscribe(
       (r:any) => {
+        this.toastr.success('Model Saved Successfully', 'Done', { timeOut: 2000 });
         console.log(r)
       },
     (e:any) => {
+      this.toastr.error('Please check the log file', 'Error', { timeOut: 4000 });
         console.error(e);
       }
     );

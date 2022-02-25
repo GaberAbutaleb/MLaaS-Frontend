@@ -5,7 +5,7 @@ import { MaterialModule } from 'src/app/material-module';
 import { NgBusyModule } from 'ng-busy';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { HierarchicalComponent } from './hierarchical/hierarchical.component';
-import { DisplayUserModelsComponent } from './display-user-models/display-user-models.component';
+import { clustringDialogadContentComponent, DisplayUserModelsComponent } from './display-user-models/display-user-models.component';
 import { MatCardModule } from '@angular/material/card';
 import { MatPaginatorModule } from '@angular/material/paginator';
 // import { MatPaginatorModule } from '@angular/material/paginator';
@@ -15,14 +15,16 @@ import { MatPaginatorModule } from '@angular/material/paginator';
   declarations: [
     KmeansComponent,
     HierarchicalComponent,
-    DisplayUserModelsComponent
+    DisplayUserModelsComponent,
+    clustringDialogadContentComponent
     
     
   ], 
   exports : [
     KmeansComponent,
     HierarchicalComponent,
-    DisplayUserModelsComponent
+    DisplayUserModelsComponent,
+    clustringDialogadContentComponent
     
     
 

@@ -1,0 +1,88 @@
+<!-- You chose: <i>{{data.name}}</i> -->
+<!-- <div *ngIf="data.name == 'add' ">
+  <h2 mat-dialog-title>Add Member to ORG Keywords List</h2>
+
+  <mat-dialog-content style="  width: 500px;" class="mat-typography">
+    <hr>
+    <div class="container-fluid" style=" padding-top: 20px;">
+
+      <div class="row">
+
+        <div class="col-lg-12">
+          <form #ORGKeywordForm="ngForm">
+            <mat-form-field style="width: 100%;">
+              <input matInput placeholder="ORG Keyword" ngModel name="neworgketword" type="string" value="">
+            </mat-form-field>
+
+          </form>
+
+        </div>
+
+      </div>
+    </div>
+    <hr>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>Cancel</button>
+    <button (click)="createORGKeyword(ORGKeywordForm.value)" mat-button [mat-dialog-close]="true" cdkFocusInitial>Submit</button>
+  </mat-dialog-actions>
+
+</div> -->
+<!--   update part -->
+<!-- <div *ngIf="data.name == 'update' ">
+  <h2 mat-dialog-title>Update {{data.orgkeywordobj.orgwords}} of ORG Keywords List</h2>
+  <mat-dialog-content style="  width: 500px;" class="mat-typography">
+    <hr>
+    <div class="container-fluid" style=" padding-top: 20px;">
+
+      <div class="row">
+
+        <div class="col-lg-12">
+          <form   >
+            <mat-form-field style="width: 100%;">
+              <input matInput name="updateorgketword" #updateorgketwordvalue  type="string" value={{data.orgkeywordobj.orgwords}}>
+            </mat-form-field>
+            <mat-form-field style="width: 100%;" style="display: none;">
+              <input matInput name="updateorgketwordid" #updateorgketwordidvalue  type="string" value={{data.orgkeywordobj.orgId}}  style="display: none;">
+            </mat-form-field>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <hr>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>Cancel</button>
+    <button mat-button  (click)="updateORGKeyword(updateorgketwordvalue.value, updateorgketwordidvalue.value)"     [mat-dialog-close]="true" cdkFocusInitial>Submit</button>
+  </mat-dialog-actions>
+
+</div> -->
+
+
+<!--   alert part -->
+<div *ngIf="data.name == 'delete' ">
+  <h2 mat-dialog-title>Delete Member of ORG Keywords List</h2>
+  <mat-dialog-content style="  width: 500px;" class="mat-typography">
+    <hr>
+    <div class="container-fluid" style=" padding-top: 20px;">
+
+      <div class="row">
+
+        <div class="col-lg-12">
+
+          Are you sure to delete all Selected User Models
+
+        </div>
+
+      </div>
+    </div>
+
+    <hr>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>Cancel</button>
+    <button mat-button [mat-dialog-close]="true" cdkFocusInitial (click)= "DeleteRows()">Submit</button>
+  </mat-dialog-actions>
+
+</div>
