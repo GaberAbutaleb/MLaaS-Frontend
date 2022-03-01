@@ -8,6 +8,7 @@ import { HierarchicalComponent } from './hierarchical/hierarchical.component';
 import { clustringDialogadContentComponent, DisplayUserModelsComponent } from './display-user-models/display-user-models.component';
 import { MatCardModule } from '@angular/material/card';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { DBScanComponent } from './dbscan/dbscan.component';
 // import { MatPaginatorModule } from '@angular/material/paginator';
 
 
@@ -16,7 +17,8 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     KmeansComponent,
     HierarchicalComponent,
     DisplayUserModelsComponent,
-    clustringDialogadContentComponent
+    clustringDialogadContentComponent,
+    DBScanComponent
     
     
   ], 
@@ -24,7 +26,8 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     KmeansComponent,
     HierarchicalComponent,
     DisplayUserModelsComponent,
-    clustringDialogadContentComponent
+    clustringDialogadContentComponent,
+    DBScanComponent
     
     
 
